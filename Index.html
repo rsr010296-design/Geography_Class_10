@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Class 10 Geography — Contemporary India II</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500;1,700&family=Space+Mono:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --sea:#b8d8f0;
+  --land:#e8e0c8;
+  --green:#3a7a2a;
+  --brown:#8a5a1a;
+  --blue:#1a5a8a;
+  --gold:#c8900a;
+  --font-display:'Playfair Display',serif;
+  --font-mono:'Space Mono',monospace;
+  --font-body:'Lora',serif;
+}
+html{scroll-behavior:smooth;}
+body{background:#f0ece0;color:#1a1208;font-family:var(--font-body);overflow-x:hidden;}
+
+/* ── HERO ── */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  background:linear-gradient(180deg,#c8e8f8 0%,#a8d0f0 30%,#d8e8c0 65%,#c8b880 100%);
+}
+
+/* Topo contours */
+.topo-lines{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.topo-lines svg{width:100%;height:100%;}
+
+.hero-content{
+  position:relative;z-index:3;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:2rem;
+  gap:.5rem;
+}
+
+/* Map container */
+#indiaMapHero{
+  width:clamp(160px,22vw,240px);
+  height:auto;
+  filter:drop-shadow(0 8px 24px rgba(0,0,0,0.25));
+  margin-bottom:.5rem;
+}
+
+.hero-eyebrow{
+  font-family:var(--font-mono);font-size:.6rem;font-weight:700;
+  letter-spacing:.22em;color:var(--blue);
+  background:rgba(255,255,255,0.7);
+  border:1px solid rgba(26,90,138,0.2);
+  padding:.35rem 1rem;border-radius:20px;
+  backdrop-filter:blur(8px);
+}
+
+.hero-title{
+  font-family:var(--font-display);
+  font-size:clamp(2.8rem,7vw,5.5rem);
+  font-weight:900;line-height:1;
+  color:#1a0a00;letter-spacing:-.02em;
+}
+
+.hero-title em{
+  font-style:italic;
+  color:var(--blue);
+}
+
+.hero-sub{
+  font-family:var(--font-display);font-style:italic;
+  font-size:clamp(.95rem,2vw,1.25rem);
+  color:rgba(30,20,0,0.6);
+}
+
+.hero-pills{
+  display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;
+  margin-top:.8rem;
+}
+.pill{
+  font-family:var(--font-mono);font-size:.58rem;font-weight:700;
+  letter-spacing:.1em;padding:.28rem .8rem;border-radius:16px;
+  backdrop-filter:blur(8px);
+}
+.pill-g{background:rgba(58,122,42,0.15);color:#2a6a18;border:1px solid rgba(58,122,42,0.3);}
+.pill-b{background:rgba(26,90,138,0.15);color:#1a4a7a;border:1px solid rgba(26,90,138,0.3);}
+.pill-o{background:rgba(200,144,10,0.15);color:#8a6000;border:1px solid rgba(200,144,10,0.3);}
+
+.scroll-cue{
+  margin-top:1.5rem;
+  font-family:var(--font-mono);font-size:.55rem;letter-spacing:.18em;
+  color:rgba(30,20,0,0.35);
+  display:flex;flex-direction:column;align-items:center;gap:.4rem;
+}
+.scroll-cue::after{content:'';width:1px;height:32px;background:linear-gradient(rgba(30,20,0,0.3),transparent);}
+
+/* ── WAVE ── */
+.wave-divide{display:block;background:#f0ece0;}
+.wave-divide svg{display:block;}
+
+/* ── CHAPTERS ── */
+.chapters-section{background:#f0ece0;padding:4rem 2rem 5rem;}
+.chapters-inner{max-width:1200px;margin:0 auto;}
+
+.sec-eyebrow{
+  font-family:var(--font-mono);font-size:.58rem;font-weight:700;
+  letter-spacing:.22em;color:var(--brown);text-align:center;margin-bottom:.4rem;
+}
+.sec-title{
+  font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.5rem);
+  font-weight:700;text-align:center;color:#1a0a00;margin-bottom:.5rem;
+}
+.sec-rule{
+  width:80px;height:3px;margin:0 auto 3rem;border-radius:2px;
+  background:linear-gradient(90deg,var(--green),var(--gold),var(--blue));
+}
+
+/* ── GRID ── */
+.chapters-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:1.4rem;
+}
+
+/* ── CARD ── */
+.chapter-card{
+  position:relative;background:#fff;
+  border-radius:18px;overflow:hidden;
+  border:1.5px solid rgba(0,0,0,0.08);
+  box-shadow:0 4px 20px rgba(0,0,0,0.08);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+  display:block;text-decoration:none;color:inherit;
+}
+.chapter-card.unlocked:hover{
+  transform:translateY(-7px) scale(1.01);
+  box-shadow:0 16px 44px rgba(0,0,0,0.14);
+}
+
+/* colour stripe */
+.card-stripe{height:5px;background:var(--cc);}
+
+.card-body{padding:1.3rem 1.3rem .9rem;}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;}
+.card-num{
+  font-family:var(--font-mono);font-size:.56rem;font-weight:700;
+  letter-spacing:.14em;padding:.2rem .55rem;border-radius:5px;
+  color:var(--cc);
+  background:color-mix(in srgb,var(--cc) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--cc) 25%,transparent);
+}
+.card-lock{
+  width:28px;height:28px;border-radius:8px;
+  background:#f4f0e8;border:1px solid rgba(0,0,0,0.08);
+  display:flex;align-items:center;justify-content:center;font-size:.85rem;
+}
+.chapter-card.unlocked .card-lock{
+  background:color-mix(in srgb,var(--cc) 10%,transparent);
+  border-color:color-mix(in srgb,var(--cc) 25%,transparent);
+}
+
+.card-icon{font-size:2.4rem;line-height:1;margin-bottom:.6rem;}
+.chapter-card.locked .card-icon{filter:grayscale(.5);opacity:.65;}
+.card-title{
+  font-family:var(--font-display);font-size:1.08rem;font-weight:700;
+  color:#1a0a00;margin-bottom:.3rem;line-height:1.3;
+}
+.card-desc{
+  font-family:var(--font-body);font-size:.78rem;font-style:italic;
+  color:#5a4a30;line-height:1.65;margin-bottom:.8rem;
+}
+.card-tags{display:flex;flex-wrap:wrap;gap:.3rem;}
+.card-tag{
+  font-family:var(--font-mono);font-size:.52rem;font-weight:700;
+  padding:.16rem .42rem;border-radius:4px;letter-spacing:.04em;
+  background:#f0ece0;color:#8a7a5a;border:1px solid rgba(0,0,0,0.07);
+}
+
+.card-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.75rem 1.3rem;
+  background:#f8f5ee;border-top:1px solid rgba(0,0,0,0.06);
+}
+.card-status{
+  font-family:var(--font-mono);font-size:.56rem;font-weight:700;
+  letter-spacing:.1em;display:flex;align-items:center;gap:.38rem;
+}
+.s-dot{width:6px;height:6px;border-radius:50%;}
+.chapter-card.locked .card-status{color:#9a8a6a;}
+.chapter-card.locked .s-dot{background:#9a8a6a;}
+.chapter-card.unlocked .card-status{color:var(--cc);}
+.chapter-card.unlocked .s-dot{background:var(--cc);}
+.card-arr{
+  font-size:.85rem;color:var(--cc);
+  opacity:0;transform:translateX(-5px);transition:all .3s;
+}
+.chapter-card.unlocked:hover .card-arr{opacity:1;transform:translateX(0);}
+
+/* locked veil */
+.locked-veil{
+  position:absolute;inset:0;
+  background:rgba(245,240,230,0.72);
+  backdrop-filter:blur(3px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;
+  border-radius:18px;pointer-events:none;
+}
+.veil-lock{font-size:2rem;opacity:.28;}
+.veil-txt{font-family:var(--font-mono);font-size:.55rem;font-weight:700;letter-spacing:.14em;color:rgba(0,0,0,0.18);}
+
+/* ── FOOTER ── */
+.footer{
+  background:#e8e0c8;text-align:center;
+  padding:1.6rem;border-top:1px solid rgba(0,0,0,0.08);
+  font-family:var(--font-mono);font-size:.58rem;
+  color:#8a7a5a;letter-spacing:.1em;
+}
+
+@media(max-width:600px){.chapters-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- Topographic SVG background -->
+  <div class="topo-lines">
+    <svg viewBox="0 0 1400 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- Ocean topo rings -->
+      <ellipse cx="200" cy="400" rx="380" ry="260" fill="none" stroke="rgba(26,90,138,0.12)" stroke-width="1.5"/>
+      <ellipse cx="200" cy="400" rx="320" ry="210" fill="none" stroke="rgba(26,90,138,0.10)" stroke-width="1.2"/>
+      <ellipse cx="200" cy="400" rx="260" ry="165" fill="none" stroke="rgba(26,90,138,0.08)" stroke-width="1"/>
+      <ellipse cx="1200" cy="380" rx="360" ry="280" fill="none" stroke="rgba(26,90,138,0.10)" stroke-width="1.5"/>
+      <ellipse cx="1200" cy="380" rx="290" ry="220" fill="none" stroke="rgba(26,90,138,0.08)" stroke-width="1"/>
+      <!-- Land topo contours -->
+      <ellipse cx="700" cy="380" rx="500" ry="320" fill="none" stroke="rgba(90,60,10,0.07)" stroke-width="1.5"/>
+      <ellipse cx="700" cy="380" rx="420" ry="265" fill="none" stroke="rgba(90,60,10,0.06)" stroke-width="1.2"/>
+      <ellipse cx="700" cy="380" rx="340" ry="210" fill="none" stroke="rgba(90,60,10,0.05)" stroke-width="1"/>
+      <ellipse cx="700" cy="380" rx="260" ry="155" fill="none" stroke="rgba(90,60,10,0.04)" stroke-width="1"/>
+      <!-- Latitude lines -->
+      <line x1="0" y1="200" x2="1400" y2="200" stroke="rgba(26,90,138,0.08)" stroke-width="1" stroke-dasharray="4,8"/>
+      <line x1="0" y1="400" x2="1400" y2="400" stroke="rgba(26,90,138,0.08)" stroke-width="1" stroke-dasharray="4,8"/>
+      <line x1="0" y1="600" x2="1400" y2="600" stroke="rgba(26,90,138,0.08)" stroke-width="1" stroke-dasharray="4,8"/>
+      <!-- Longitude lines -->
+      <line x1="350" y1="0" x2="350" y2="800" stroke="rgba(26,90,138,0.06)" stroke-width="1" stroke-dasharray="4,8"/>
+      <line x1="700" y1="0" x2="700" y2="800" stroke="rgba(26,90,138,0.06)" stroke-width="1" stroke-dasharray="4,8"/>
+      <line x1="1050" y1="0" x2="1050" y2="800" stroke="rgba(26,90,138,0.06)" stroke-width="1" stroke-dasharray="4,8"/>
+      <!-- Compass rose hint -->
+      <g transform="translate(1280,90)" opacity=".18">
+        <line x1="0" y1="-28" x2="0" y2="28" stroke="#1a3a5a" stroke-width="1.5"/>
+        <line x1="-28" y1="0" x2="28" y2="0" stroke="#1a3a5a" stroke-width="1.5"/>
+        <polygon points="0,-28 -5,-14 5,-14" fill="#1a3a5a"/>
+        <text x="0" y="-32" text-anchor="middle" font-family="Space Mono" font-size="9" fill="#1a3a5a">N</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">NCERT · CLASS 10 · GEOGRAPHY</div>
+
+    <!-- India map rendered by D3 -->
+    <div id="indiaMapHero"></div>
+
+    <h1 class="hero-title">Contemporary<br><em>India II</em></h1>
+    <p class="hero-sub">Class 10 Geography — Interactive Study Material</p>
+
+    <div class="hero-pills">
+      <span class="pill pill-g">🌿 7 CHAPTERS</span>
+      <span class="pill pill-b">🗺️ INTERACTIVE MAPS</span>
+      <span class="pill pill-o">📝 EXERCISES &amp; PUZZLES</span>
+    </div>
+
+    <div class="scroll-cue">EXPLORE CHAPTERS</div>
+  </div>
+</section>
+
+<!-- WAVE DIVIDER -->
+<div class="wave-divide">
+  <svg viewBox="0 0 1440 70" preserveAspectRatio="none" height="70">
+    <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,10 1440,35 L1440,70 L0,70 Z" fill="#f0ece0"/>
+  </svg>
+</div>
+
+<!-- CHAPTERS -->
+<section class="chapters-section">
+  <div class="chapters-inner">
+    <p class="sec-eyebrow">COURSE CONTENT</p>
+    <h2 class="sec-title">All Chapters</h2>
+    <div class="sec-rule"></div>
+    <div class="chapters-grid" id="chaptersGrid"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  NCERT · Contemporary India II · Class 10 Geography · Reprint 2026–27
+</footer>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+//  UNLOCK CHAPTERS — change  locked: true  →  locked: false  to open a chapter
+// ─────────────────────────────────────────────────────────────────────────────
+const chapters = [
+  { num:1, locked:true,  file:'Geography_Ch1_ResourcesAndDevelopment.html',    title:'Resources and Development',       icon:'🌍', color:'#c8780a', desc:'Classification of resources, land use, soil types and conservation.',                    topics:['RESOURCES','LAND USE','SOIL TYPES','CONSERVATION'] },
+  { num:2, locked:true,  file:'Geography_Ch2_ForestAndWildlifeResources.html', title:'Forest and Wildlife Resources',   icon:'🌿', color:'#2e8a3a', desc:'Flora and fauna, forest cover, conservation and community initiatives.',               topics:['FORESTS','WILDLIFE','BIODIVERSITY','PROTECTED AREAS'] },
+  { num:3, locked:true,  file:'Geography_Ch3_WaterResources.html',             title:'Water Resources',                 icon:'💧', color:'#1a6a9a', desc:'Water scarcity, multipurpose projects, rainwater harvesting.',                         topics:['WATER SCARCITY','DAMS','HARVESTING','CONSERVATION'] },
+  { num:4, locked:true,  file:'Geography_Ch4_Agriculture.html',                title:'Agriculture',                     icon:'🌾', color:'#a87010', desc:'Types of farming, major crops, food security and agricultural development.',            topics:['KHARIF','RABI','CROPS','FOOD SECURITY'] },
+  { num:5, locked:true,  file:'Geography_Ch5_MineralsAndEnergyResources.html', title:'Minerals and Energy Resources',   icon:'⛏️', color:'#6a5a8a', desc:'Types of minerals, mining methods, conventional and non-conventional energy.',         topics:['MINERALS','MINING','ENERGY','RENEWABLES'] },
+  { num:6, locked:true,  file:'Geography_Ch6_ManufacturingIndustries.html',    title:'Manufacturing Industries',        icon:'🏭', color:'#1a5a8a', desc:'Types of industries, industrial clusters, pollution and sustainable development.',     topics:['INDUSTRIES','TEXTILES','STEEL','POLLUTION'] },
+  { num:7, locked:true,  file:'Geography_Ch7_LifelinesOfNationalEconomy.html', title:'Lifelines of National Economy',   icon:'🛤️', color:'#7a4a1a', desc:'Transport networks, communication, trade and international commerce.',               topics:['TRANSPORT','ROADS','RAILWAYS','TRADE'] },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  RENDER CARDS — no changes needed below
+// ─────────────────────────────────────────────────────────────────────────────
+const grid = document.getElementById('chaptersGrid');
+chapters.forEach(ch => {
+  const u = !ch.locked;
+  const el = document.createElement(u ? 'a' : 'div');
+  el.className = 'chapter-card ' + (u ? 'unlocked' : 'locked');
+  el.style.setProperty('--cc', ch.color);
+  if(u) el.href = ch.file;
+  el.innerHTML = `
+    <div class="card-stripe"></div>
+    <div class="card-body">
+      <div class="card-top">
+        <span class="card-num">CH · ${String(ch.num).padStart(2,'0')}</span>
+        <span class="card-lock">${u?'🔓':'🔒'}</span>
+      </div>
+      <div class="card-icon">${ch.icon}</div>
+      <h3 class="card-title">${ch.title}</h3>
+      <p class="card-desc">${ch.desc}</p>
+      <div class="card-tags">${ch.topics.map(t=>`<span class="card-tag">${t}</span>`).join('')}</div>
+    </div>
+    <div class="card-foot">
+      <span class="card-status"><span class="s-dot"></span>${u?'AVAILABLE':'LOCKED'}</span>
+      <span class="card-arr">→</span>
+    </div>
+    ${!u?`<div class="locked-veil"><span class="veil-lock">🔒</span><span class="veil-txt">Coming Soon</span></div>`:''}
+  `;
+  grid.appendChild(el);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  INDIA MAP — rendered with D3 + GeoJSON
+// ─────────────────────────────────────────────────────────────────────────────
+(function(){
+  const container = document.getElementById('indiaMapHero');
+  if(!container) return;
+
+  const W = 200, H = 240;
+  const d3s = document.createElement('script');
+  d3s.src = 'https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js';
+  d3s.onload = function(){
+    d3.json('https://raw.githubusercontent.com/geohacker/india/master/state/india_telengana.geojson')
+      .then(function(geo){
+        const svg = d3.select('#indiaMapHero').append('svg')
+          .attr('width', W).attr('height', H)
+          .attr('viewBox', `0 0 ${W} ${H}`)
+          .style('overflow','visible');
+
+        // Ocean background glow
+        svg.append('ellipse')
+          .attr('cx', W/2).attr('cy', H/2)
+          .attr('rx', W*0.65).attr('ry', H*0.6)
+          .attr('fill','rgba(168,208,240,0.4)')
+          .attr('filter','url(#glow)');
+
+        const defs = svg.append('defs');
+        const filter = defs.append('filter').attr('id','glow');
+        filter.append('feGaussianBlur').attr('stdDeviation','8').attr('result','blur');
+        const merge = filter.append('feMerge');
+        merge.append('feMergeNode').attr('in','blur');
+        merge.append('feMergeNode').attr('in','SourceGraphic');
+
+        const proj = d3.geoMercator().fitSize([W, H], geo);
+        const path = d3.geoPath().projection(proj);
+
+        // State fills
+        svg.selectAll('path.state')
+          .data(geo.features).enter()
+          .append('path').attr('class','state')
+          .attr('d', path)
+          .attr('fill','#d4c898')
+          .attr('stroke','#fff')
+          .attr('stroke-width','0.6')
+          .attr('opacity','0.95');
+
+        // Outline stroke
+        svg.append('path')
+          .datum({type:'FeatureCollection', features: geo.features})
+          .attr('d', d3.geoPath().projection(proj))
+          .attr('fill','none')
+          .attr('stroke','#8a6a20')
+          .attr('stroke-width','1.2')
+          .attr('opacity','.5');
+      })
+      .catch(function(){
+        // fallback emoji
+        container.innerHTML = '<div style="font-size:5rem;text-align:center;padding:1rem;">🗺️</div>';
+      });
+  };
+  document.head.appendChild(d3s);
+})();
+</script>
+</body>
+</html>
