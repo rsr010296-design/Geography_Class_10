@@ -8,312 +8,373 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
+  --sea:#b8d8f0;
+  --land:#e8e0c8;
+  --green:#3a7a2a;
+  --brown:#8a5a1a;
+  --blue:#1a5a8a;
+  --gold:#c8900a;
   --font-display:'Playfair Display',serif;
   --font-mono:'Space Mono',monospace;
   --font-body:'Lora',serif;
 }
 html{scroll-behavior:smooth;}
-body{background:#0a1628;color:#e8e0d0;font-family:var(--font-body);overflow-x:hidden;}
+body{background:#f0ece0;color:#1a1208;font-family:var(--font-body);overflow-x:hidden;}
 
-/* ══════════════════════════════════════════
-   HERO
-══════════════════════════════════════════ */
+/* ── HERO ── */
 .hero{
   position:relative;min-height:100vh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;padding:5rem 2rem 4rem;
+  display:flex;align-items:center;justify-content:center;
   overflow:hidden;
-  background:radial-gradient(ellipse 120% 100% at 50% 0%,#0d2a1a 0%,#0a1628 50%,#1a0a2a 100%);
+  background:linear-gradient(180deg,#c8e8f8 0%,#a8d0f0 30%,#d8e8c0 65%,#c8b880 100%);
 }
 
-/* Starfield */
-.stars{position:absolute;inset:0;pointer-events:none;}
-.stars canvas{position:absolute;inset:0;width:100%;height:100%;}
+/* Topo contours */
+.topo-lines{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.topo-lines svg{width:100%;height:100%;}
 
-/* Aurora bands */
-.aurora{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
-.aurora-band{
-  position:absolute;left:-20%;width:140%;
-  border-radius:50%;
-  filter:blur(60px);
-  opacity:.18;
-  animation:aurora-drift 14s ease-in-out infinite;
-}
-.ab1{height:300px;top:-80px;background:linear-gradient(90deg,#00c896,#0088cc,#8844ee);animation-delay:0s;}
-.ab2{height:200px;top:60px;background:linear-gradient(90deg,#ee4488,#cc8800,#00cc88);animation-delay:-5s;opacity:.12;}
-.ab3{height:250px;top:-20px;background:linear-gradient(90deg,#0044cc,#00aa88);animation-delay:-9s;opacity:.10;}
-
-@keyframes aurora-drift{
-  0%,100%{transform:translateX(0) scaleY(1);}
-  33%{transform:translateX(3%) scaleY(1.1);}
-  66%{transform:translateX(-3%) scaleY(.9);}
+.hero-content{
+  position:relative;z-index:3;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:2rem;
+  gap:1rem;
 }
 
-/* Grid lines — like a map projection */
-.map-grid{position:absolute;inset:0;pointer-events:none;}
-.map-grid svg{width:100%;height:100%;}
-
-.hero-inner{position:relative;z-index:4;display:flex;flex-direction:column;align-items:center;gap:.9rem;}
-
-/* Glowing map container */
-.map-wrap{
-  position:relative;
-  width:clamp(150px,18vw,210px);
-  margin-bottom:.5rem;
-}
-.map-wrap::before{
-  content:'';position:absolute;inset:-20px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(0,200,150,0.25) 0%,transparent 70%);
-  animation:map-pulse 3s ease-in-out infinite;
-}
-@keyframes map-pulse{0%,100%{opacity:.6;transform:scale(1);}50%{opacity:1;transform:scale(1.05);}}
-#indiaMapHero{width:100%;filter:drop-shadow(0 0 18px rgba(0,220,160,0.5));}
-
-/* Badge */
-.badge{
-  display:inline-flex;align-items:center;gap:.5rem;
-  font-family:var(--font-mono);font-size:.58rem;font-weight:700;
-  letter-spacing:.2em;
-  color:rgba(200,240,220,0.8);
-  border:1px solid rgba(0,200,150,0.3);
-  background:rgba(0,200,150,0.08);
-  padding:.38rem 1.1rem;border-radius:30px;
-  backdrop-filter:blur(10px);
+/* Map container */
+#indiaMapHero{
+  width:clamp(160px,22vw,220px);
+  height:auto;
+  filter:drop-shadow(0 6px 18px rgba(0,0,0,0.20));
+  margin-bottom:1.5rem;
 }
 
-/* Title */
+.hero-eyebrow{
+  font-family:var(--font-mono);font-size:.6rem;font-weight:700;
+  letter-spacing:.22em;color:var(--blue);
+  background:rgba(255,255,255,0.7);
+  border:1px solid rgba(26,90,138,0.2);
+  padding:.35rem 1rem;border-radius:20px;
+  backdrop-filter:blur(8px);
+}
+
 .hero-title{
   font-family:var(--font-display);
-  font-size:clamp(3rem,8vw,6rem);
-  font-weight:900;line-height:.95;
-  letter-spacing:-.03em;
-  color:#fff;
+  font-size:clamp(2.8rem,7vw,5.5rem);
+  font-weight:900;line-height:1;
+  color:#1a0a00;letter-spacing:-.02em;
 }
-.hero-title .line2{
-  display:block;font-style:italic;
-  background:linear-gradient(135deg,#00e8a0 0%,#00aaff 50%,#aa88ff 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
+
+.hero-title em{
+  font-style:italic;
+  color:var(--blue);
 }
 
 .hero-sub{
   font-family:var(--font-display);font-style:italic;
-  font-size:clamp(.9rem,1.8vw,1.2rem);
-  color:rgba(220,210,200,0.5);
+  font-size:clamp(.95rem,2vw,1.25rem);
+  color:rgba(30,20,0,0.6);
 }
 
-/* Animated stat pills */
-.stat-row{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;}
-.stat{
+.hero-pills{
+  display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;
+  margin-top:.8rem;
+}
+.pill{
   font-family:var(--font-mono);font-size:.58rem;font-weight:700;
-  letter-spacing:.1em;padding:.3rem .85rem;border-radius:20px;
-  border:1px solid;
-  animation:stat-glow 3s ease-in-out infinite;
+  letter-spacing:.1em;padding:.28rem .8rem;border-radius:16px;
+  backdrop-filter:blur(8px);
 }
-.s1{color:#00e8a0;border-color:rgba(0,232,160,.35);background:rgba(0,232,160,.08);animation-delay:0s;}
-.s2{color:#44aaff;border-color:rgba(68,170,255,.35);background:rgba(68,170,255,.08);animation-delay:1s;}
-.s3{color:#ffaa44;border-color:rgba(255,170,68,.35);background:rgba(255,170,68,.08);animation-delay:2s;}
-@keyframes stat-glow{0%,100%{box-shadow:none;}50%{box-shadow:0 0 12px currentColor;}}
+.pill-g{background:rgba(58,122,42,0.15);color:#2a6a18;border:1px solid rgba(58,122,42,0.3);}
+.pill-b{background:rgba(26,90,138,0.15);color:#1a4a7a;border:1px solid rgba(26,90,138,0.3);}
+.pill-o{background:rgba(200,144,10,0.15);color:#8a6000;border:1px solid rgba(200,144,10,0.3);}
 
-/* Scroll arrow */
-.scroll-down{
-  font-family:var(--font-mono);font-size:.52rem;letter-spacing:.18em;
-  color:rgba(255,255,255,0.2);margin-top:.5rem;
+.scroll-cue{
+  margin-top:1.5rem;
+  font-family:var(--font-mono);font-size:.55rem;letter-spacing:.18em;
+  color:rgba(30,20,0,0.35);
   display:flex;flex-direction:column;align-items:center;gap:.4rem;
-  animation:bob 2s ease-in-out infinite;
 }
-.scroll-down::after{content:'';width:1px;height:38px;background:linear-gradient(rgba(0,200,150,0.4),transparent);}
-@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
+.scroll-cue::after{content:'';width:1px;height:32px;background:linear-gradient(rgba(30,20,0,0.3),transparent);}
 
-/* ══════════════════════════════════════════
-   TERRAIN DIVIDER
-══════════════════════════════════════════ */
-.terrain-divide{
-  position:relative;background:#0a1628;
-  line-height:0;overflow:hidden;
-}
-.terrain-divide svg{display:block;width:100%;}
+/* ── WAVE ── */
+.wave-divide{display:block;background:#f0ece0;}
+.wave-divide svg{display:block;}
 
-/* ══════════════════════════════════════════
-   CHAPTERS SECTION
-══════════════════════════════════════════ */
-.chapters-section{
-  background:linear-gradient(180deg,#0f1e10 0%,#0d1520 40%,#1a0d20 100%);
-  padding:5rem 2rem 6rem;
-  position:relative;
-}
-
-/* Floating geography facts ticker */
-.geo-ticker{
-  background:rgba(0,200,150,0.06);
-  border-top:1px solid rgba(0,200,150,0.15);
-  border-bottom:1px solid rgba(0,200,150,0.15);
-  padding:.6rem 0;overflow:hidden;margin-bottom:4rem;
-}
-.ticker-inner{
-  display:flex;gap:4rem;
-  animation:ticker-scroll 30s linear infinite;
-  white-space:nowrap;width:max-content;
-}
-.ticker-inner span{
-  font-family:var(--font-mono);font-size:.58rem;
-  color:rgba(0,232,160,0.6);letter-spacing:.1em;
-}
-.ticker-inner span strong{color:rgba(0,232,160,0.9);}
-@keyframes ticker-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}</p>
+/* ── CHAPTERS ── */
+.chapters-section{background:#f0ece0;padding:4rem 2rem 5rem;}
+.chapters-inner{max-width:1200px;margin:0 auto;}
 
 .sec-eyebrow{
   font-family:var(--font-mono);font-size:.58rem;font-weight:700;
-  letter-spacing:.22em;text-align:center;margin-bottom:.5rem;
-  color:rgba(0,200,150,0.6);
+  letter-spacing:.22em;color:var(--brown);text-align:center;margin-bottom:.4rem;
 }
 .sec-title{
-  font-family:var(--font-display);
-  font-size:clamp(1.8rem,3.5vw,2.8rem);
-  font-weight:700;text-align:center;
-  color:#fff;margin-bottom:.5rem;
+  font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.5rem);
+  font-weight:700;text-align:center;color:#1a0a00;margin-bottom:.5rem;
 }
 .sec-rule{
-  width:100px;height:2px;margin:0 auto 3.5rem;
-  background:linear-gradient(90deg,transparent,#00e8a0,#44aaff,transparent);
+  width:80px;height:3px;margin:0 auto 3rem;border-radius:2px;
+  background:linear-gradient(90deg,var(--green),var(--gold),var(--blue));
 }
 
-/* Chapter grid */
+/* ── GRID ── */
 .chapters-grid{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-  gap:1.5rem;
-  max-width:1200px;margin:0 auto;
+  gap:1.4rem;
 }
 
-/* ══════════════════════════════════════════
-   CHAPTER CARD
-══════════════════════════════════════════ */
+/* ── CARD ── */
 .chapter-card{
-  position:relative;
-  background:linear-gradient(145deg,rgba(255,255,255,0.06) 0%,rgba(255,255,255,0.02) 100%);
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:20px;overflow:hidden;
-  backdrop-filter:blur(10px);
-  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s,border-color .35s;
+  position:relative;background:#fff;
+  border-radius:18px;overflow:hidden;
+  border:1.5px solid rgba(0,0,0,0.08);
+  box-shadow:0 4px 20px rgba(0,0,0,0.08);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
   display:block;text-decoration:none;color:inherit;
 }
-.chapter-card::before{
-  content:'';position:absolute;inset:0;border-radius:20px;
-  background:linear-gradient(135deg,var(--cc) 0%,transparent 60%);
-  opacity:.07;transition:opacity .35s;
-}
 .chapter-card.unlocked:hover{
-  transform:translateY(-8px) scale(1.015);
-  box-shadow:0 24px 60px rgba(0,0,0,0.5),0 0 0 1px var(--cc);
-  border-color:rgba(255,255,255,0.15);
-}
-.chapter-card.unlocked:hover::before{opacity:.14;}
-
-/* Glowing top line */
-.card-glow-line{
-  height:2px;
-  background:linear-gradient(90deg,transparent,var(--cc),transparent);
-  opacity:.8;
+  transform:translateY(-7px) scale(1.01);
+  box-shadow:0 16px 44px rgba(0,0,0,0.14);
 }
 
-.card-body{padding:1.4rem;}
-.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;}
+/* colour stripe */
+.card-stripe{height:5px;background:var(--cc);}
 
+.card-body{padding:1.3rem 1.3rem .9rem;}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;}
 .card-num{
   font-family:var(--font-mono);font-size:.56rem;font-weight:700;
-  letter-spacing:.14em;padding:.22rem .55rem;border-radius:5px;
+  letter-spacing:.14em;padding:.2rem .55rem;border-radius:5px;
   color:var(--cc);
-  background:color-mix(in srgb,var(--cc) 14%,transparent);
-  border:1px solid color-mix(in srgb,var(--cc) 28%,transparent);
+  background:color-mix(in srgb,var(--cc) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--cc) 25%,transparent);
 }
 .card-lock{
-  width:30px;height:30px;border-radius:9px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:.85rem;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
+  width:28px;height:28px;border-radius:8px;
+  background:#f4f0e8;border:1px solid rgba(0,0,0,0.08);
+  display:flex;align-items:center;justify-content:center;font-size:.85rem;
 }
 .chapter-card.unlocked .card-lock{
-  background:color-mix(in srgb,var(--cc) 15%,transparent);
-  border-color:color-mix(in srgb,var(--cc) 30%,transparent);
+  background:color-mix(in srgb,var(--cc) 10%,transparent);
+  border-color:color-mix(in srgb,var(--cc) 25%,transparent);
 }
 
-.card-icon{
-  font-size:2.6rem;line-height:1;margin-bottom:.7rem;
-  display:block;
-  filter:drop-shadow(0 0 10px var(--cc));
-}
-.chapter-card.locked .card-icon{filter:none;opacity:.4;}
-
+.card-icon{font-size:2.4rem;line-height:1;margin-bottom:.6rem;}
+.chapter-card.locked .card-icon{filter:grayscale(.5);opacity:.65;}
 .card-title{
-  font-family:var(--font-display);font-size:1.1rem;font-weight:700;
-  color:#fff;margin-bottom:.35rem;line-height:1.3;
+  font-family:var(--font-display);font-size:1.08rem;font-weight:700;
+  color:#1a0a00;margin-bottom:.3rem;line-height:1.3;
 }
-.chapter-card.locked .card-title{opacity:.5;}
-
 .card-desc{
   font-family:var(--font-body);font-size:.78rem;font-style:italic;
-  color:rgba(220,210,200,0.5);line-height:1.65;margin-bottom:.9rem;
+  color:#5a4a30;line-height:1.65;margin-bottom:.8rem;
 }
-.chapter-card.locked .card-desc{opacity:.5;}
-
-.card-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.3rem;}
+.card-tags{display:flex;flex-wrap:wrap;gap:.3rem;}
 .card-tag{
   font-family:var(--font-mono);font-size:.52rem;font-weight:700;
-  letter-spacing:.05em;padding:.18rem .44rem;border-radius:4px;
-  color:rgba(200,200,200,0.45);
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.07);
+  padding:.16rem .42rem;border-radius:4px;letter-spacing:.04em;
+  background:#f0ece0;color:#8a7a5a;border:1px solid rgba(0,0,0,0.07);
 }
 
-.card-footer{
+.card-foot{
   display:flex;align-items:center;justify-content:space-between;
-  padding:.8rem 1.4rem;
-  border-top:1px solid rgba(255,255,255,0.06);
-  background:rgba(0,0,0,0.15);
+  padding:.75rem 1.3rem;
+  background:#f8f5ee;border-top:1px solid rgba(0,0,0,0.06);
 }
 .card-status{
   font-family:var(--font-mono);font-size:.56rem;font-weight:700;
-  letter-spacing:.1em;display:flex;align-items:center;gap:.4rem;
+  letter-spacing:.1em;display:flex;align-items:center;gap:.38rem;
 }
 .s-dot{width:6px;height:6px;border-radius:50%;}
-.chapter-card.locked .card-status{color:rgba(255,255,255,0.2);}
-.chapter-card.locked .s-dot{background:rgba(255,255,255,0.2);}
+.chapter-card.locked .card-status{color:#9a8a6a;}
+.chapter-card.locked .s-dot{background:#9a8a6a;}
 .chapter-card.unlocked .card-status{color:var(--cc);}
-.chapter-card.unlocked .s-dot{background:var(--cc);box-shadow:0 0 6px var(--cc);}
-
+.chapter-card.unlocked .s-dot{background:var(--cc);}
 .card-arr{
-  font-size:.9rem;color:var(--cc);
-  opacity:0;transform:translateX(-6px);transition:all .3s;
+  font-size:.85rem;color:var(--cc);
+  opacity:0;transform:translateX(-5px);transition:all .3s;
 }
 .chapter-card.unlocked:hover .card-arr{opacity:1;transform:translateX(0);}
 
-/* Locked veil */
+/* locked veil */
 .locked-veil{
   position:absolute;inset:0;
-  background:rgba(10,22,40,0.78);
-  backdrop-filter:blur(4px);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
-  border-radius:20px;pointer-events:none;
+  background:rgba(245,240,230,0.72);
+  backdrop-filter:blur(3px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;
+  border-radius:18px;pointer-events:none;
 }
-.veil-lock{font-size:2.2rem;opacity:.25;}
-.veil-txt{
-  font-family:var(--font-mono);font-size:.56rem;font-weight:700;
-  letter-spacing:.16em;color:rgba(255,255,255,0.2);
+.veil-lock{font-size:2rem;opacity:.28;}
+.veil-txt{font-family:var(--font-mono);font-size:.55rem;font-weight:700;letter-spacing:.14em;color:rgba(0,0,0,0.18);}
+
+/* ── FOOTER ── */
+.footer{
+  background:#e8e0c8;text-align:center;
+  padding:1.6rem;border-top:1px solid rgba(0,0,0,0.08);
+  font-family:var(--font-mono);font-size:.58rem;
+  color:#8a7a5a;letter-spacing:.1em;
 }
 
-/* ══════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════ */
-.footer{
-  background:#060e18;
-  border-top:1px solid rgba(0,200,150,0.1);
-  text-align:center;padding:2rem;
-  font-family:var(--font-mono);font-size:.58rem;
-  color:rgba(255,255,255,0.2);letter-spacing:.1em;
+/* ── FLASHY ENHANCEMENTS ── */
+
+/* Floating particles */
+.particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1;}
+.particle{
+  position:absolute;border-radius:50%;
+  animation:particle-float linear infinite;
+  opacity:0;
+}
+@keyframes particle-float{
+  0%{transform:translateY(100vh) scale(0);opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:.6;}
+  100%{transform:translateY(-10vh) scale(1);opacity:0;}
+}
+
+/* Animated topo lines */
+.topo-lines svg ellipse{
+  animation:topo-pulse 6s ease-in-out infinite;
+}
+.topo-lines svg ellipse:nth-child(2){animation-delay:1s;}
+.topo-lines svg ellipse:nth-child(3){animation-delay:2s;}
+.topo-lines svg ellipse:nth-child(4){animation-delay:.5s;}
+.topo-lines svg ellipse:nth-child(5){animation-delay:1.5s;}
+.topo-lines svg ellipse:nth-child(6){animation-delay:3s;}
+.topo-lines svg ellipse:nth-child(7){animation-delay:2s;}
+@keyframes topo-pulse{
+  0%,100%{opacity:1;}
+  50%{opacity:2.5;stroke-width:2;}
+}
+
+/* Glowing India map */
+#indiaMapHero{
+  animation:map-glow 3s ease-in-out infinite;
+}
+@keyframes map-glow{
+  0%,100%{filter:drop-shadow(0 6px 18px rgba(0,0,0,0.20)) drop-shadow(0 0 0px rgba(138,106,32,0));}
+  50%{filter:drop-shadow(0 6px 18px rgba(0,0,0,0.20)) drop-shadow(0 0 22px rgba(138,106,32,0.45));}
+}
+
+/* Hero badge shimmer */
+.hero-eyebrow{
+  position:relative;overflow:hidden;
+}
+.hero-eyebrow::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent);
+  animation:shimmer 3s ease-in-out infinite;
+}
+@keyframes shimmer{0%{left:-100%;}100%{left:200%;}}
+
+/* Hero title glow */
+.hero-title em{
+  text-shadow:0 0 40px rgba(26,90,138,0.3);
+  animation:title-glow 4s ease-in-out infinite;
+}
+@keyframes title-glow{
+  0%,100%{text-shadow:0 0 20px rgba(26,90,138,0.2);}
+  50%{text-shadow:0 0 50px rgba(26,90,138,0.5),0 0 80px rgba(26,90,138,0.2);}
+}
+
+/* Animated pills */
+.pill{
+  position:relative;overflow:hidden;
+  transition:transform .2s, box-shadow .2s;
+  animation:pill-breathe 4s ease-in-out infinite;
+}
+.pill:nth-child(2){animation-delay:1.3s;}
+.pill:nth-child(3){animation-delay:2.6s;}
+@keyframes pill-breathe{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-3px);}
+}
+.pill::after{
+  content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);
+  animation:shimmer 4s ease-in-out infinite;
+}
+.pill:nth-child(2)::after{animation-delay:1.3s;}
+.pill:nth-child(3)::after{animation-delay:2.6s;}
+
+/* Scroll cue bounce */
+.scroll-cue{animation:cue-bounce 2s ease-in-out infinite;}
+@keyframes cue-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
+
+/* Section rule animation */
+.sec-rule{
+  animation:rule-grow 1s ease-out forwards, rule-shimmer 4s ease-in-out 1s infinite;
+  transform-origin:center;
+}
+@keyframes rule-grow{from{width:0;}to{width:80px;}}
+@keyframes rule-shimmer{
+  0%,100%{background:linear-gradient(90deg,var(--green),var(--gold),var(--blue));}
+  50%{background:linear-gradient(90deg,var(--blue),var(--green),var(--gold));}
+}
+
+/* Card stripe shimmer */
+.card-stripe{
+  position:relative;overflow:hidden;
+  transition:height .3s;
+}
+.chapter-card.unlocked:hover .card-stripe{height:7px;}
+.card-stripe::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.6),transparent);
+  animation:shimmer 2.5s ease-in-out infinite;
+}
+
+/* Card icon bounce on hover */
+.card-icon{
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  display:inline-block;
+}
+.chapter-card.unlocked:hover .card-icon{transform:scale(1.25) rotate(-5deg);}
+
+/* Card hover glow */
+.chapter-card.unlocked:hover{
+  box-shadow:0 16px 44px rgba(0,0,0,0.14), 0 0 0 1.5px var(--cc), 0 0 20px color-mix(in srgb,var(--cc) 20%,transparent);
+}
+
+/* Status dot pulse */
+.chapter-card.unlocked .s-dot{
+  animation:dot-pulse 2s ease-in-out infinite;
+}
+@keyframes dot-pulse{
+  0%,100%{box-shadow:0 0 0 0 var(--cc);}
+  50%{box-shadow:0 0 0 4px color-mix(in srgb,var(--cc) 20%,transparent);}
+}
+
+/* Wave animate */
+.wave-divide svg path{
+  animation:wave-shift 8s ease-in-out infinite;
+}
+@keyframes wave-shift{
+  0%,100%{d:path("M0,35 C240,70 480,0 720,35 C960,70 1200,10 1440,35 L1440,70 L0,70 Z");}
+  50%{d:path("M0,25 C240,55 480,10 720,45 C960,60 1200,20 1440,25 L1440,70 L0,70 Z");}
+}
+
+/* Entrance animations */
+.hero-content > *{
+  animation:fade-up .8s ease both;
+}
+.hero-content > *:nth-child(1){animation-delay:.1s;}
+.hero-content > *:nth-child(2){animation-delay:.25s;}
+.hero-content > *:nth-child(3){animation-delay:.4s;}
+.hero-content > *:nth-child(4){animation-delay:.55s;}
+.hero-content > *:nth-child(5){animation-delay:.7s;}
+.hero-content > *:nth-child(6){animation-delay:.85s;}
+@keyframes fade-up{
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.chapter-card{
+  animation:card-in .6s ease both;
+}
+@keyframes card-in{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
 }
 
 @media(max-width:600px){.chapters-grid{grid-template-columns:1fr;}}
@@ -323,132 +384,75 @@ body{background:#0a1628;color:#e8e0d0;font-family:var(--font-body);overflow-x:hi
 
 <!-- HERO -->
 <section class="hero">
-  <!-- Aurora -->
-  <div class="aurora">
-    <div class="aurora-band ab1"></div>
-    <div class="aurora-band ab2"></div>
-    <div class="aurora-band ab3"></div>
-  </div>
 
-  <!-- Map grid lines (lat/lon projection) -->
-  <div class="map-grid">
-    <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <!-- Meridians -->
-      <line x1="200" y1="0" x2="200" y2="900" stroke="rgba(0,200,150,0.06)" stroke-width="1"/>
-      <line x1="400" y1="0" x2="400" y2="900" stroke="rgba(0,200,150,0.06)" stroke-width="1"/>
-      <line x1="600" y1="0" x2="600" y2="900" stroke="rgba(0,200,150,0.06)" stroke-width="1"/>
-      <line x1="800" y1="0" x2="800" y2="900" stroke="rgba(0,200,150,0.06)" stroke-width="1"/>
-      <line x1="1000" y1="0" x2="1000" y2="900" stroke="rgba(0,200,150,0.06)" stroke-width="1"/>
-      <line x1="1200" y1="0" x2="1200" y2="900" stroke="rgba(0,200,150,0.06)" stroke-width="1"/>
-      <!-- Parallels -->
-      <line x1="0" y1="150" x2="1400" y2="150" stroke="rgba(0,200,150,0.06)" stroke-width="1"/>
-      <line x1="0" y1="300" x2="1400" y2="300" stroke="rgba(0,200,150,0.06)" stroke-width="1"/>
-      <line x1="0" y1="450" x2="1400" y2="450" stroke="rgba(0,200,150,0.06)" stroke-width="1"/>
-      <line x1="0" y1="600" x2="1400" y2="600" stroke="rgba(0,200,150,0.06)" stroke-width="1"/>
-      <line x1="0" y1="750" x2="1400" y2="750" stroke="rgba(0,200,150,0.06)" stroke-width="1"/>
-      <!-- Tropic of Cancer -->
-      <line x1="0" y1="380" x2="1400" y2="380" stroke="rgba(255,180,50,0.12)" stroke-width="1.5" stroke-dasharray="6,10"/>
-      <text x="20" y="376" font-family="Space Mono" font-size="9" fill="rgba(255,180,50,0.35)" letter-spacing="1">TROPIC OF CANCER</text>
-      <!-- Equator -->
-      <line x1="0" y1="540" x2="1400" y2="540" stroke="rgba(100,200,255,0.12)" stroke-width="1.5" stroke-dasharray="6,10"/>
-      <text x="20" y="536" font-family="Space Mono" font-size="9" fill="rgba(100,200,255,0.3)" letter-spacing="1">EQUATOR</text>
-      <!-- Compass -->
-      <g transform="translate(1320,80)" opacity=".5">
-        <circle cx="0" cy="0" r="26" fill="none" stroke="rgba(0,200,150,0.3)" stroke-width="1"/>
-        <line x1="0" y1="-20" x2="0" y2="20" stroke="rgba(0,200,150,0.5)" stroke-width="1.2"/>
-        <line x1="-20" y1="0" x2="20" y2="0" stroke="rgba(0,200,150,0.5)" stroke-width="1.2"/>
-        <polygon points="0,-20 -4,-8 4,-8" fill="#00e8a0" opacity=".8"/>
-        <text x="0" y="-24" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#00e8a0">N</text>
-        <text x="0" y="34" text-anchor="middle" font-family="Space Mono" font-size="7" fill="rgba(0,200,150,0.4)">S</text>
-        <text x="26" y="4" font-family="Space Mono" font-size="7" fill="rgba(0,200,150,0.4)">E</text>
-        <text x="-30" y="4" font-family="Space Mono" font-size="7" fill="rgba(0,200,150,0.4)">W</text>
-      </g>
-      <!-- Scale bar -->
-      <g transform="translate(60,840)" opacity=".35">
-        <rect x="0" y="0" width="80" height="6" fill="rgba(0,200,150,0.4)"/>
-        <rect x="80" y="0" width="80" height="6" fill="rgba(0,200,150,0.15)"/>
-        <text x="0" y="18" font-family="Space Mono" font-size="8" fill="rgba(0,200,150,0.6)">0</text>
-        <text x="72" y="18" font-family="Space Mono" font-size="8" fill="rgba(0,200,150,0.6)">500</text>
-        <text x="148" y="18" font-family="Space Mono" font-size="8" fill="rgba(0,200,150,0.6)">1000 km</text>
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+  <!-- Topographic SVG background -->
+  <div class="topo-lines">
+    <svg viewBox="0 0 1400 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- Ocean topo rings -->
+      <ellipse cx="200" cy="400" rx="380" ry="260" fill="none" stroke="rgba(26,90,138,0.12)" stroke-width="1.5"/>
+      <ellipse cx="200" cy="400" rx="320" ry="210" fill="none" stroke="rgba(26,90,138,0.10)" stroke-width="1.2"/>
+      <ellipse cx="200" cy="400" rx="260" ry="165" fill="none" stroke="rgba(26,90,138,0.08)" stroke-width="1"/>
+      <ellipse cx="1200" cy="380" rx="360" ry="280" fill="none" stroke="rgba(26,90,138,0.10)" stroke-width="1.5"/>
+      <ellipse cx="1200" cy="380" rx="290" ry="220" fill="none" stroke="rgba(26,90,138,0.08)" stroke-width="1"/>
+      <!-- Land topo contours -->
+      <ellipse cx="700" cy="380" rx="500" ry="320" fill="none" stroke="rgba(90,60,10,0.07)" stroke-width="1.5"/>
+      <ellipse cx="700" cy="380" rx="420" ry="265" fill="none" stroke="rgba(90,60,10,0.06)" stroke-width="1.2"/>
+      <ellipse cx="700" cy="380" rx="340" ry="210" fill="none" stroke="rgba(90,60,10,0.05)" stroke-width="1"/>
+      <ellipse cx="700" cy="380" rx="260" ry="155" fill="none" stroke="rgba(90,60,10,0.04)" stroke-width="1"/>
+      <!-- Latitude lines -->
+      <line x1="0" y1="200" x2="1400" y2="200" stroke="rgba(26,90,138,0.08)" stroke-width="1" stroke-dasharray="4,8"/>
+      <line x1="0" y1="400" x2="1400" y2="400" stroke="rgba(26,90,138,0.08)" stroke-width="1" stroke-dasharray="4,8"/>
+      <line x1="0" y1="600" x2="1400" y2="600" stroke="rgba(26,90,138,0.08)" stroke-width="1" stroke-dasharray="4,8"/>
+      <!-- Longitude lines -->
+      <line x1="350" y1="0" x2="350" y2="800" stroke="rgba(26,90,138,0.06)" stroke-width="1" stroke-dasharray="4,8"/>
+      <line x1="700" y1="0" x2="700" y2="800" stroke="rgba(26,90,138,0.06)" stroke-width="1" stroke-dasharray="4,8"/>
+      <line x1="1050" y1="0" x2="1050" y2="800" stroke="rgba(26,90,138,0.06)" stroke-width="1" stroke-dasharray="4,8"/>
+      <!-- Compass rose hint -->
+      <g transform="translate(1280,90)" opacity=".18">
+        <line x1="0" y1="-28" x2="0" y2="28" stroke="#1a3a5a" stroke-width="1.5"/>
+        <line x1="-28" y1="0" x2="28" y2="0" stroke="#1a3a5a" stroke-width="1.5"/>
+        <polygon points="0,-28 -5,-14 5,-14" fill="#1a3a5a"/>
+        <text x="0" y="-32" text-anchor="middle" font-family="Space Mono" font-size="9" fill="#1a3a5a">N</text>
       </g>
     </svg>
   </div>
 
-  <div class="hero-inner">
-    <div class="badge">🌏 &nbsp; NCERT · CLASS 10 · GEOGRAPHY</div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">NCERT · CLASS 10 · GEOGRAPHY</div>
 
-    <div class="map-wrap">
-      <div id="indiaMapHero"></div>
+    <!-- India map rendered by D3 -->
+    <div id="indiaMapHero"></div>
+
+    <h1 class="hero-title">Contemporary<br><em>India II</em></h1>
+    <p class="hero-sub">Class 10 Geography — Interactive Study Material</p>
+
+    <div class="hero-pills">
+      <span class="pill pill-g">🌿 7 CHAPTERS</span>
+      <span class="pill pill-b">🗺️ INTERACTIVE MAPS</span>
+      <span class="pill pill-o">📝 EXERCISES &amp; PUZZLES</span>
     </div>
 
-    <h1 class="hero-title">
-      Contemporary
-      <span class="line2">India II</span>
-    </h1>
-    <p class="hero-sub">Interactive Study Material · Class 10 Geography</p>
-
-    <div class="stat-row">
-      <span class="stat s1">🌿 7 CHAPTERS</span>
-      <span class="stat s2">🗺️ INTERACTIVE MAPS</span>
-      <span class="stat s3">📝 EXERCISES & PUZZLES</span>
-    </div>
-
-    <div class="scroll-down">EXPLORE CHAPTERS</div>
+    <div class="scroll-cue">EXPLORE CHAPTERS</div>
   </div>
 </section>
 
-<!-- TERRAIN DIVIDER -->
-<div class="terrain-divide">
-  <svg viewBox="0 0 1440 120" preserveAspectRatio="none" height="120">
-    <defs>
-      <linearGradient id="terrainGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#0a1628"/>
-        <stop offset="100%" stop-color="#0f1e10"/>
-      </linearGradient>
-    </defs>
-    <path d="M0,80 L60,60 L120,75 L200,40 L280,65 L360,30 L440,55 L520,20 L600,50 L680,15 L760,45 L840,10 L920,40 L1000,20 L1080,50 L1160,25 L1240,55 L1320,35 L1440,60 L1440,120 L0,120 Z"
-          fill="url(#terrainGrad)" opacity=".9"/>
-    <path d="M0,95 L80,78 L160,90 L240,65 L320,82 L400,55 L480,75 L560,45 L640,70 L720,38 L800,65 L880,30 L960,58 L1040,42 L1120,68 L1200,48 L1280,72 L1360,55 L1440,78 L1440,120 L0,120 Z"
-          fill="#0f1e10" opacity=".95"/>
-    <!-- Snow caps -->
-    <path d="M200,40 L215,52 L185,52 Z" fill="rgba(255,255,255,0.15)"/>
-    <path d="M520,20 L537,34 L503,34 Z" fill="rgba(255,255,255,0.18)"/>
-    <path d="M840,10 L858,26 L822,26 Z" fill="rgba(255,255,255,0.2)"/>
-    <path d="M1000,20 L1016,34 L984,34 Z" fill="rgba(255,255,255,0.15)"/>
+<!-- WAVE DIVIDER -->
+<div class="wave-divide">
+  <svg viewBox="0 0 1440 70" preserveAspectRatio="none" height="70">
+    <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,10 1440,35 L1440,70 L0,70 Z" fill="#f0ece0"/>
   </svg>
 </div>
 
-<!-- CHAPTERS SECTION -->
+<!-- CHAPTERS -->
 <section class="chapters-section">
-
-  <!-- Geography facts ticker -->
-  <div class="geo-ticker">
-    <div class="ticker-inner">
-      <span>🌍 <strong>India</strong> — 7th largest country by area · 3.28 million sq km</span>
-      <span>🏔️ <strong>Himalayas</strong> — Fold mountains · Source of major rivers</span>
-      <span>🌊 <strong>Tropic of Cancer</strong> — passes through 8 Indian states</span>
-      <span>🌾 <strong>Agriculture</strong> — employs ~50% of India's workforce</span>
-      <span>⛏️ <strong>Minerals</strong> — India has 100+ minerals found across the country</span>
-      <span>💧 <strong>Water</strong> — India has 4% of world's fresh water resources</span>
-      <span>🌿 <strong>Forests</strong> — cover 21.71% of India's geographical area</span>
-      <span>🛤️ <strong>Railways</strong> — 4th largest rail network in the world</span>
-      <!-- duplicate for seamless loop -->
-      <span>🌍 <strong>India</strong> — 7th largest country by area · 3.28 million sq km</span>
-      <span>🏔️ <strong>Himalayas</strong> — Fold mountains · Source of major rivers</span>
-      <span>🌊 <strong>Tropic of Cancer</strong> — passes through 8 Indian states</span>
-      <span>🌾 <strong>Agriculture</strong> — employs ~50% of India's workforce</span>
-      <span>⛏️ <strong>Minerals</strong> — India has 100+ minerals found across the country</span>
-      <span>💧 <strong>Water</strong> — India has 4% of world's fresh water resources</span>
-      <span>🌿 <strong>Forests</strong> — cover 21.71% of India's geographical area</span>
-      <span>🛤️ <strong>Railways</strong> — 4th largest rail network in the world</span>
-    </div>
+  <div class="chapters-inner">
+    <p class="sec-eyebrow">COURSE CONTENT</p>
+    <h2 class="sec-title">All Chapters</h2>
+    <div class="sec-rule"></div>
+    <div class="chapters-grid" id="chaptersGrid"></div>
   </div>
-
-  <p class="sec-eyebrow">COURSE CONTENT</p>
-  <h2 class="sec-title">All Chapters</h2>
-  <div class="sec-rule"></div>
-
-  <div class="chapters-grid" id="chaptersGrid"></div>
 </section>
 
 <footer class="footer">
@@ -460,38 +464,39 @@ body{background:#0a1628;color:#e8e0d0;font-family:var(--font-body);overflow-x:hi
 //  UNLOCK CHAPTERS — change  locked: true  →  locked: false  to open a chapter
 // ─────────────────────────────────────────────────────────────────────────────
 const chapters = [
-  { num:1, locked:false,  file:'Geography_Ch1_ResourcesAndDevelopment.html',    title:'Resources and Development',     icon:'🌍', color:'#f0a030', desc:'Classification of resources, land use, soil types and conservation.',                topics:['RESOURCES','LAND USE','SOIL TYPES','CONSERVATION'] },
-  { num:2, locked:false,  file:'Geography_Ch2_ForestAndWildlifeResources.html', title:'Forest and Wildlife Resources', icon:'🌿', color:'#00c864', desc:'Flora and fauna, forest cover, conservation and community initiatives.',           topics:['FORESTS','WILDLIFE','BIODIVERSITY','PROTECTED AREAS'] },
-  { num:3, locked:true,  file:'Geography_Ch3_WaterResources.html',             title:'Water Resources',               icon:'💧', color:'#00aaff', desc:'Water scarcity, multipurpose projects, rainwater harvesting.',                     topics:['WATER SCARCITY','DAMS','HARVESTING','CONSERVATION'] },
-  { num:4, locked:true,  file:'Geography_Ch4_Agriculture.html',                title:'Agriculture',                   icon:'🌾', color:'#e8c030', desc:'Types of farming, major crops, food security and agricultural development.',        topics:['KHARIF','RABI','CROPS','FOOD SECURITY'] },
-  { num:5, locked:true,  file:'Geography_Ch5_MineralsAndEnergyResources.html', title:'Minerals and Energy Resources', icon:'⛏️', color:'#cc88ff', desc:'Types of minerals, mining methods, conventional and non-conventional energy.',     topics:['MINERALS','MINING','ENERGY','RENEWABLES'] },
-  { num:6, locked:true,  file:'Geography_Ch6_ManufacturingIndustries.html',    title:'Manufacturing Industries',      icon:'🏭', color:'#44ccff', desc:'Types of industries, industrial clusters, pollution and sustainable development.', topics:['INDUSTRIES','TEXTILES','STEEL','POLLUTION'] },
-  { num:7, locked:true,  file:'Geography_Ch7_LifelinesOfNationalEconomy.html', title:'Lifelines of National Economy', icon:'🛤️', color:'#ff8844', desc:'Transport networks, communication, trade and international commerce.',           topics:['TRANSPORT','ROADS','RAILWAYS','TRADE'] },
+  { num:1, locked:true,  file:'Geography_Ch1_ResourcesAndDevelopment.html',    title:'Resources and Development',       icon:'🌍', color:'#c8780a', desc:'Classification of resources, land use, soil types and conservation.',                    topics:['RESOURCES','LAND USE','SOIL TYPES','CONSERVATION'] },
+  { num:2, locked:true,  file:'Geography_Ch2_ForestAndWildlifeResources.html', title:'Forest and Wildlife Resources',   icon:'🌿', color:'#2e8a3a', desc:'Flora and fauna, forest cover, conservation and community initiatives.',               topics:['FORESTS','WILDLIFE','BIODIVERSITY','PROTECTED AREAS'] },
+  { num:3, locked:true,  file:'Geography_Ch3_WaterResources.html',             title:'Water Resources',                 icon:'💧', color:'#1a6a9a', desc:'Water scarcity, multipurpose projects, rainwater harvesting.',                         topics:['WATER SCARCITY','DAMS','HARVESTING','CONSERVATION'] },
+  { num:4, locked:true,  file:'Geography_Ch4_Agriculture.html',                title:'Agriculture',                     icon:'🌾', color:'#a87010', desc:'Types of farming, major crops, food security and agricultural development.',            topics:['KHARIF','RABI','CROPS','FOOD SECURITY'] },
+  { num:5, locked:true,  file:'Geography_Ch5_MineralsAndEnergyResources.html', title:'Minerals and Energy Resources',   icon:'⛏️', color:'#6a5a8a', desc:'Types of minerals, mining methods, conventional and non-conventional energy.',         topics:['MINERALS','MINING','ENERGY','RENEWABLES'] },
+  { num:6, locked:true,  file:'Geography_Ch6_ManufacturingIndustries.html',    title:'Manufacturing Industries',        icon:'🏭', color:'#1a5a8a', desc:'Types of industries, industrial clusters, pollution and sustainable development.',     topics:['INDUSTRIES','TEXTILES','STEEL','POLLUTION'] },
+  { num:7, locked:true,  file:'Geography_Ch7_LifelinesOfNationalEconomy.html', title:'Lifelines of National Economy',   icon:'🛤️', color:'#7a4a1a', desc:'Transport networks, communication, trade and international commerce.',               topics:['TRANSPORT','ROADS','RAILWAYS','TRADE'] },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  RENDER CARDS
+//  RENDER CARDS — no changes needed below
 // ─────────────────────────────────────────────────────────────────────────────
 const grid = document.getElementById('chaptersGrid');
 chapters.forEach(ch => {
   const u = !ch.locked;
   const el = document.createElement(u ? 'a' : 'div');
   el.className = 'chapter-card ' + (u ? 'unlocked' : 'locked');
+  el.style.animationDelay = `${ch.num * 0.1}s`;
   el.style.setProperty('--cc', ch.color);
   if(u) el.href = ch.file;
   el.innerHTML = `
-    <div class="card-glow-line"></div>
+    <div class="card-stripe"></div>
     <div class="card-body">
-      <div class="card-head">
+      <div class="card-top">
         <span class="card-num">CH · ${String(ch.num).padStart(2,'0')}</span>
         <span class="card-lock">${u?'🔓':'🔒'}</span>
       </div>
-      <span class="card-icon">${ch.icon}</span>
+      <div class="card-icon">${ch.icon}</div>
       <h3 class="card-title">${ch.title}</h3>
       <p class="card-desc">${ch.desc}</p>
       <div class="card-tags">${ch.topics.map(t=>`<span class="card-tag">${t}</span>`).join('')}</div>
     </div>
-    <div class="card-footer">
+    <div class="card-foot">
       <span class="card-status"><span class="s-dot"></span>${u?'AVAILABLE':'LOCKED'}</span>
       <span class="card-arr">→</span>
     </div>
@@ -500,12 +505,33 @@ chapters.forEach(ch => {
   grid.appendChild(el);
 });
 
+// ─── FLOATING PARTICLES ───────────────────────────────────────────────────────
+(function(){
+  const container = document.getElementById('particles');
+  if(!container) return;
+  const colors = ['rgba(26,90,138,0.35)','rgba(200,144,10,0.3)','rgba(58,122,42,0.3)','rgba(138,90,26,0.25)'];
+  for(let i = 0; i < 28; i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 6 + 3;
+    p.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*12+8}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    container.appendChild(p);
+  }
+})();
+
 // ─────────────────────────────────────────────────────────────────────────────
-//  INDIA MAP — D3 + GeoJSON
+//  INDIA MAP — rendered with D3 + GeoJSON
 // ─────────────────────────────────────────────────────────────────────────────
 (function(){
   const container = document.getElementById('indiaMapHero');
   if(!container) return;
+
   const W = 200, H = 240;
   const d3s = document.createElement('script');
   d3s.src = 'https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js';
@@ -516,25 +542,33 @@ chapters.forEach(ch => {
           .attr('width', W).attr('height', H)
           .attr('viewBox', `0 0 ${W} ${H}`)
           .style('overflow','visible');
+
         const proj = d3.geoMercator().fitSize([W, H], geo);
         const path = d3.geoPath().projection(proj);
-        // States with subtle gradient fill
-        svg.selectAll('path.s')
+
+        // State fills
+        svg.selectAll('path.state')
           .data(geo.features).enter()
-          .append('path').attr('class','s')
+          .append('path').attr('class','state')
           .attr('d', path)
-          .attr('fill','rgba(0,200,140,0.18)')
-          .attr('stroke','rgba(0,230,160,0.5)')
-          .attr('stroke-width','0.7');
-        // Outer glow outline
+          .attr('fill','#d4c898')
+          .attr('stroke','#fff')
+          .attr('stroke-width','0.6')
+          .attr('opacity','0.95');
+
+        // Outline stroke
         svg.append('path')
-          .datum({type:'FeatureCollection',features:geo.features})
+          .datum({type:'FeatureCollection', features: geo.features})
           .attr('d', d3.geoPath().projection(proj))
           .attr('fill','none')
-          .attr('stroke','rgba(0,255,180,0.6)')
-          .attr('stroke-width','1.5');
+          .attr('stroke','#8a6a20')
+          .attr('stroke-width','1.2')
+          .attr('opacity','.5');
       })
-      .catch(()=>{ container.innerHTML='<div style="font-size:4rem;padding:1rem;">🗺️</div>'; });
+      .catch(function(){
+        // fallback emoji
+        container.innerHTML = '<div style="font-size:5rem;text-align:center;padding:1rem;">🗺️</div>';
+      });
   };
   document.head.appendChild(d3s);
 })();
